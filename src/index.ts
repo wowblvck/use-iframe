@@ -6,16 +6,16 @@ import {
   Dispatch,
   SetStateAction,
   useRef,
-  useMemo
+  useMemo,
 } from "react";
 
 interface Options {
   ref?: RefObject<HTMLIFrameElement>;
 }
 
-type MessageDispatcher<Message> = (message: Message) => void;
+export type MessageDispatcher<Message> = (message: Message) => void;
 
-type UseIframeResult<Message> = [MessageDispatcher<Message>];
+export type UseIframeResult<Message> = [MessageDispatcher<Message>];
 
 export type MessageHandler<Message> = (
   message: Message,
@@ -34,7 +34,7 @@ function encodeMessage<Message>(message: Message, fromId?: string) {
   return JSON.stringify({
     fromId,
     payload: JSON.stringify(message),
-    [packetId]: true
+    [packetId]: true,
   });
 }
 
@@ -71,14 +71,17 @@ export function useIframe<Message = any>(
   const isChild = !isParent && window !== window.top;
 
   /** Scope: Parent */
-  const [iframeId, setIframeId] = useState<string>();
+  const [iframeId, setIframeId] = useState<string | undefined>(
+    ref?.current?.id
+  );
+
   useEffect(() => {
     setIframeId(ref?.current?.id);
   }, [ref]);
 
   const [queue, setQueue] = useState<(Message | PrivateMessage)[]>([]);
 
-  const [childId, setChildId] = useState<string>();
+  const [childId, setChildId] = useState<string | undefined>(ref?.current?.id);
 
   /** Scope Parent */
   const isChildMounted = childId !== undefined;
@@ -86,7 +89,7 @@ export function useIframe<Message = any>(
   const dispatch = useCallback(
     (message: Message) => {
       if (isParent || isChild) {
-        setQueue(q => [...q, message]);
+        setQueue((q) => [...q, message]);
       }
     },
     [isParent, isChild]
@@ -95,7 +98,7 @@ export function useIframe<Message = any>(
   const dispatchPrivate = useCallback(
     (message: PrivateMessage) => {
       if (isParent || isChild) {
-        setQueue(q => [...q, message]);
+        setQueue((q) => [...q, message]);
       }
     },
     [isParent, isChild]
@@ -128,12 +131,12 @@ export function useIframe<Message = any>(
     const message = queue[0];
     if (isParent) {
       if (message && isChildMounted) {
-        setQueue(q => q.slice(1));
+        setQueue((q) => q.slice(1));
         postMessage(message);
       }
     } else {
       if (message) {
-        setQueue(q => q.slice(1));
+        setQueue((q) => q.slice(1));
         postMessage(message);
       }
     }
@@ -167,7 +170,7 @@ export function useIframe<Message = any>(
       const iframes = Array.from(
         window.parent.document.getElementsByTagName("iframe")
       );
-      const iframe = iframes.find(iframe => iframe.contentWindow === window);
+      const iframe = iframes.find((iframe) => iframe.contentWindow === window);
       if (iframe) {
         dispatchPrivate({ type: "mounted", id: iframe.id, __private: true });
         setChildId(iframe.id);
@@ -188,7 +191,7 @@ export function useIframeEvent<EventName = string>(
   options?: Options
 ): [() => void] {
   const handleMessage: MessageHandler<EventName> = useCallback(
-    event => {
+    (event) => {
       if (handleEvent && event === eventName) {
         handleEvent();
       }
@@ -217,13 +220,13 @@ export function useIframeSharedState<S>(
 ): [S, Dispatch<SetStateAction<S>>] {
   const stateAge = useRef({
     local: new Date().getTime(),
-    remote: 0
+    remote: 0,
   });
   const [internalState, setInternalState] = useState<S>(initialState);
   const [remoteState, setRemoteState] = useState<S>(initialState);
 
   const handler: MessageHandler<SharedStateMessageType<S>> = useCallback(
-    message => {
+    (message) => {
       switch (message.type) {
         case "__private_set-state":
           stateAge.current.remote = message.time;

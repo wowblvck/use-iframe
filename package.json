@@ -1,6 +1,6 @@
 {
-  "name": "use-iframe",
-  "version": "1.0.4",
+  "name": "@wowblvck/use-iframe",
+  "version": "1.0.5",
   "description": "Two way communication between react components through iframes",
   "keywords": [
     "react",
@@ -11,7 +11,7 @@
     "state"
   ],
   "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
@@ -22,13 +22,13 @@
     "url": "https://github.com/coffeedoughnuts/use-iframe"
   },
   "scripts": {
-    "build": "tsc --module commonjs"
+    "build": "tsc"
   },
   "devDependencies": {
-    "@types/react": "^16.9.17",
-    "typescript": "^3.7.4"
+    "@types/react": "^18.3.3",
+    "typescript": "^5.5.3"
   },
   "peerDependencies": {
-    "react": "^16.12.0"
+    "react": "^18.3.1"
   }
 }

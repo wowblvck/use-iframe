@@ -1,27 +1,17 @@
 {
   "compilerOptions": {
-    "moduleResolution": "node",
-    "target": "es5",
+    "moduleResolution": "Bundler",
+    "target": "ESNext",
     "module": "es2015",
-    "lib": [
-      "es2015",
-      "es2016",
-      "es2017",
-      "dom"
-    ],
-    "jsx": "react",
+    "lib": ["es2015", "es2016", "es2017", "dom"],
+    "jsx": "react-jsx",
     "strict": true,
     "sourceMap": true,
     "declaration": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "outDir": "dist",
-    "typeRoots": [
-      "node_modules/@types"
-    ]
+    "outDir": "dist"
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }
