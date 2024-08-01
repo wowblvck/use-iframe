@@ -1,6 +1,6 @@
 {
   "name": "@wowblvck/use-iframe",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Two way communication between react components through iframes",
   "keywords": [
     "react",
@@ -19,7 +19,7 @@
   "author": "Daniel Baker <danbaker@me.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/coffeedoughnuts/use-iframe"
+    "url": "https://github.com/wowblvck/use-iframe"
   },
   "scripts": {
     "build": "tsc"
