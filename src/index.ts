@@ -167,13 +167,19 @@ export function useIframe<Message = any>(
 
   useEffect(() => {
     if (!isParent) {
-      const iframes = Array.from(
-        window.parent.document.getElementsByTagName("iframe")
-      );
-      const iframe = iframes.find((iframe) => iframe.contentWindow === window);
-      if (iframe) {
-        dispatchPrivate({ type: "mounted", id: iframe.id, __private: true });
-        setChildId(iframe.id);
+      try {
+        const iframes = Array.from(
+          window.parent?.document?.getElementsByTagName("iframe") || []
+        );
+        const iframe = iframes.find(
+          (iframe) => iframe.contentWindow === window
+        );
+        if (iframe) {
+          dispatchPrivate({ type: "mounted", id: iframe.id, __private: true });
+          setChildId(iframe.id);
+        }
+      } catch {
+        console.warn("Access to window.parent.document is restricted");
       }
     }
   }, [dispatchPrivate, isParent]);

@@ -1,6 +1,6 @@
 {
   "name": "@wowblvck/use-iframe",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "Two way communication between react components through iframes",
   "keywords": [
     "react",
@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.4"
   },
   "peerDependencies": {
     "react": "^18.3.1"
